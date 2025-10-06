@@ -258,6 +258,7 @@ swag init -g cmd/gateway/main.go -o docs
 - [Quick Start Guide](QUICKSTART.md) - Common tasks and examples
 - [Features Guide](FEATURES.md) - Complete feature documentation with examples
 - [Observability Stack](OBSERVABILITY.md) - Monitoring, metrics, and tracing
+- [Development Roadmap](ROADMAP.md) - Future features and development plans 🗺️
 - [API Documentation](http://localhost:8080/swagger) - Swagger UI (when running)
 
 ## 🚀 Quick Examples
