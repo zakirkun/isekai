@@ -1,0 +1,241 @@
+basePath: /
+definitions:
+  github_com_zakirkun_isekai_internal_database.Route:
+    properties:
+      created_at:
+        type: string
+      enabled:
+        type: boolean
+      id:
+        type: integer
+      method:
+        type: string
+      path:
+        type: string
+      rate_limit:
+        type: integer
+      target_url:
+        type: string
+      timeout:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  github_com_zakirkun_isekai_pkg_response.Response:
+    properties:
+      data: {}
+      error:
+        type: string
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@isekai-gateway.io
+    name: API Support
+  description: A high-performance API Gateway built with Go featuring PostgreSQL,
+    caching, circuit breaker, load balancing, distributed tracing, WebSocket, and
+    more
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  termsOfService: http://swagger.io/terms/
+  title: Isekai API Gateway
+  version: "2.0"
+paths:
+  /api/auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate user and return JWT token
+      parameters:
+      - description: Login credentials
+        in: body
+        name: credentials
+        required: true
+        schema:
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_zakirkun_isekai_pkg_response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_zakirkun_isekai_pkg_response.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_zakirkun_isekai_pkg_response.Response'
+      summary: User login
+      tags:
+      - auth
+  /api/routes:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of all configured routes
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_zakirkun_isekai_pkg_response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_zakirkun_isekai_pkg_response.Response'
+      summary: List all routes
+      tags:
+      - routes
+    post:
+      consumes:
+      - application/json
+      description: Create a new route configuration
+      parameters:
+      - description: Route object
+        in: body
+        name: route
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_zakirkun_isekai_internal_database.Route'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/github_com_zakirkun_isekai_pkg_response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_zakirkun_isekai_pkg_response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_zakirkun_isekai_pkg_response.Response'
+      security:
+      - BearerAuth: []
+      summary: Create a new route
+      tags:
+      - routes
+  /api/routes/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a route by its ID
+      parameters:
+      - description: Route ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_zakirkun_isekai_pkg_response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_zakirkun_isekai_pkg_response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_zakirkun_isekai_pkg_response.Response'
+      security:
+      - BearerAuth: []
+      summary: Delete a route
+      tags:
+      - routes
+    get:
+      consumes:
+      - application/json
+      description: Get a specific route by its ID
+      parameters:
+      - description: Route ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_zakirkun_isekai_pkg_response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_zakirkun_isekai_pkg_response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_zakirkun_isekai_pkg_response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_zakirkun_isekai_pkg_response.Response'
+      summary: Get route by ID
+      tags:
+      - routes
+    put:
+      consumes:
+      - application/json
+      description: Update an existing route configuration
+      parameters:
+      - description: Route ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Route object
+        in: body
+        name: route
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_zakirkun_isekai_internal_database.Route'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_zakirkun_isekai_pkg_response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_zakirkun_isekai_pkg_response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_zakirkun_isekai_pkg_response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_zakirkun_isekai_pkg_response.Response'
+      security:
+      - BearerAuth: []
+      summary: Update a route
+      tags:
+      - routes
+schemes:
+- http
+- https
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer" followed by a space and JWT token.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
